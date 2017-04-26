@@ -17,3 +17,8 @@
          (check-digits v)
          (str n v))))
 
+(defn get-training-nric [prefix how-many]
+  (take how-many (map nric (map #(format (str prefix "%07d") %)(repeatedly #(rand-int 10000000))))))
+
+(doseq [nric (get-training-nric "S" 50000)]
+  (println nric))
