@@ -20,5 +20,11 @@
 (defn get-training-nric [prefix how-many]
   (take how-many (map nric (map #(format (str prefix "%07d") %)(repeatedly #(rand-int 10000000))))))
 
-(doseq [nric (get-training-nric "S" 50000)]
-  (println nric))
+(defn as-csv [prefix how-many]
+  (let [data (->> (get-training-nric prefix how-many)
+                  (map #(clojure.string/split % #""))
+                  (map #(clojure.string/join "," %)))]
+  (doseq [nric data]
+    (println nric))))
+
+(as-csv "S" 50)
